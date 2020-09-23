@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, 阿信的主页">
+    <meta name="keywords" content="深入理解java虚拟机 — gc与内存分配策略, 阿信的主页">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | 阿信的主页</title>
+    <title>深入理解java虚拟机 — gc与内存分配策略 | 阿信的主页</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">深入理解java虚拟机 — gc与内存分配策略</h1>
                 </div>
             </div>
         </div>
@@ -428,12 +428,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">《深入理解java虚拟机》读书笔记</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java%E5%9F%BA%E7%A1%80/" class="post-category">
+                                java基础
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -442,7 +455,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-09-22
+                    2019-06-02
                 </div>
                 
 
@@ -458,19 +471,103 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <p>内存运行时分区：程序计数器，虚拟机栈和本地方法栈，都会随线程的销毁而回收</p>
+<p>因为主要需要GC的是堆和方法区 </p>
+<p>名词解释：在 Java 中，堆被划分成两个不同的区域：新生代 ( Young )、老年代 ( Old )。新生代 ( Young ) 又被划分为三个区域：Eden、From Survivor、To Survivor。</p>
+<p>80%eden 10%survivor</p>
+<p>对象存活判定算法</p>
+<p>1 引用计数算法：有引用就加1，引用失效减1，判断对象是否存活</p>
+<p>2 可达性分析算法： 以 GC ROOTS 的对象为起始点，向下搜索节点，搜索所走过的路径称为引用链。如果一个对象 到 GC ROOTS 没有引用链相连，那么认为此对象不可用。(主流商业用这种)</p>
+<p>可以作为GC ROOTS对象的：</p>
+<ol>
+<li>虚拟机栈中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中JNI(native方法)引用的对象</li>
+</ol>
+<p>引用类型：</p>
+<p>强引用 软引用 弱引用 虚引用</p>
+<p>finalize方法</p>
+<p>方法区是老年代</p>
+<p>垃圾收集算法</p>
+<p>1 标记-清除算法(老年代)</p>
+<p>先标记所有需要回收的对象，然后统一完成清除回收。但标记和清除的效率都不高，且会造成很多不连续的内存碎片。当需要分配较大的对象时，会因为无法找到连续的空间而再一次触发垃圾收集动作</p>
+<p>2 复制算法(新生代)</p>
+<p>将内存按容量分为大小相同的两块。然后将已使用的对象复制到另一块，再将这块空间一次性清理，这样效率比较高，每次直接对一半的内存区域清理，没有碎片。代价就是将内存缩小为一半。(商业虚拟机都用这种算法来回收新生代)</p>
+<p>3 标记整理法(老年代)</p>
+<p>复制算法在对象存活率较高时，就会进行比较多的复制操作，效率就会降低。</p>
+<p>和标记清除的标记部分一样，但不直接对可回收对象进行清理，而是让存活的对象向一端移动，然后直接清理掉端边界以外的内存。</p>
+<p>4 分代收集算法</p>
+<p>分老年代和新生代。新生代用复制算法，老年代用标记清除或者标记整理</p>
+<p>具体算法实现</p>
+<p>1 枚举根节点</p>
+<p>依赖oopMap数据结构</p>
+<p>2 安全点</p>
+<p>安全点的特征是”长时间执行”，指令序列复用，如方法调用，循环跳转，异常跳转等</p>
+<p>如何让线程都跑到安全点。分抢先式中断和主动式中断。</p>
+<p>抢先式：GC让所有线程中断，没到安全点的，让跑到安全点再中断</p>
+<p>主动式：GC设置一个标志，所有线程去轮询这个标志，中断标志为true就中断</p>
+<p>3 安全区域</p>
+<p>垃圾收集器</p>
+<p>1 serial收集器 新生代</p>
+<p>单线程，且在收集时需要停掉其他工作的线程。</p>
+<p>2 ParNew收集器  新生代</p>
+<p>多线程版本</p>
+<p>3 Paraller Scavenge收集器  新生代</p>
+<p>复制算法，并行的多线程收集器</p>
+<p>可控制吞吐量，停顿时间越短，交互越好</p>
+<p>吞吐量 = 运行用户代码时间 / (运行用户代码时间 + 垃圾收集时间)</p>
+<p>4 Serial Old  老年代</p>
+<p>使用标记-整理算法，同样单线程</p>
+<p>5 Paraller Old 老年代</p>
+<p>Paraller Scavenge 和  Paraller Old 搭配使用</p>
+<p>6 CMS 收集器</p>
+<p>一种以获取最短回收停顿时间为目标的收集器</p>
+<p>适合重视服务的响应速度的网站</p>
+<p>分以下几步：</p>
+<p>初始标记</p>
+<p>并发标记  1 和 2 需要stop the world</p>
+<p>重新标记</p>
+<p>并发清除</p>
+<p>缺点：对CPU资源敏感；无法清除浮动垃圾；基于标记-清除算法，会有大量碎片</p>
+<p>7 G1收集器 新老都可以</p>
+<p>特点：</p>
+<p>并行与并发</p>
+<p>分代收集</p>
+<p>空间整合</p>
+<p>从整体看是标记-整理，从局部region之间看，是复制算法。</p>
+<p>可预测的停顿</p>
+<p>步骤：</p>
+<p>初始标记</p>
+<p>并发标记</p>
+<p>最终标记</p>
+<p>筛选回收</p>
+<p>G1还没进入使用 </p>
+<p>总结：标记期间都需要停顿。标记都是找到GC ROOT。</p>
+<p>内存分配与回收策略</p>
+<ol>
+<li>对象主要分配在堆的新生代 的eden</li>
+</ol>
+<p>新生代GC 是 minor gc</p>
+<p>老年代GC 是major、full gc。</p>
+<p>当出现major gc ，至少伴随一次minor gc。且major gc比minor gc慢十倍以上</p>
+<ol start="2">
+<li><p>大对象直接进入老年代</p>
+<p>大对象是指需要大量连续内存空间的java对象，例如byte[]这种，很长的字符串。</p>
+</li>
+<li><p>长期存活的对象进入老年代</p>
+</li>
+</ol>
+<p>给对象进行标记，minor gc一次，还存活的，就年龄+1，达到设置的值就进入老年代了</p>
+<ol start="4">
+<li>动态对象年龄判定</li>
+</ol>
+<p>在survivor空间中相同年龄所有对象大小的总和大于survivor空间的一半，年龄大于或等于该年龄的对象可以直接进入老年代，不需要等 Max-TenuringThreshold中要求的年龄</p>
+<ol start="5">
+<li>空间分配担保</li>
+</ol>
+<p>在minor gc 之前， 新生代的survivor无法容纳的对象需要进入老年代，老年代需要担保 容纳 晋升到老年代中对象的空间。通常取平均值作为经验值</p>
+<p>结论：只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小，就会进行minor gc，否则进行full gc</p>
 
             </div>
             <hr/>
@@ -496,7 +593,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2020/09/22/hello-world/">http://example.com/2020/09/22/hello-world/</a>
+                    <a href="http://example.com/2019/06/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E2%80%94gc%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/">http://example.com/2019/06/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E2%80%94gc%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -533,7 +630,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">《深入理解java虚拟机》读书笔记</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -699,69 +800,32 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
-            <div class="card">
-                <a href="/2020/09/22/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-22
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Zmyths
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-        
-        
         <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/06/21/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E2%80%94string%E7%AF%87/">
+                <a href="/2019/06/13/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E2%80%94%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="源码阅读 — String篇">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="深入理解java虚拟机 — 类文件结构">
                         
-                        <span class="card-title">源码阅读 — String篇</span>
+                        <span class="card-title">深入理解java虚拟机 — 类文件结构</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            string的equals
-123456789101112131415161718192021public boolean equals(Object anObject) &#123;    if (this == anObject) &#
+                            将java代码编译成存储字节码的class文件
+8位字节的二进制文件  
+高位在前            
+
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-21
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-13
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -777,10 +841,47 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E3%80%8A%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%8B/">
-                        <span class="chip bg-color">《源码阅读》</span>
+                    <a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3java%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">《深入理解java虚拟机》读书笔记</span>
                     </a>
                     
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/23/SQL/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="SQL">
+                        
+                        <span class="card-title">SQL</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-04-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Zmyths
+                            
+                        </span>
+                    </div>
                 </div>
                 
             </div>
